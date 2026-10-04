@@ -18,6 +18,19 @@ function App() {
   const [money, setMoney] = useState(0);
   const [currentHealth, setHealth] = useState(50);
 
+  // task completion gives user award and goober health.
+  const completeTask = () => {
+    // i put complete task here because setMoney and set Health are defined above.
+    setHealth((health) => Math.min(100, health + 10));
+    setMoney((money) => money + 5);
+  };
+
+  // unchecking a task takes the reward back, the opposite of completeTask.
+  const uncompleteTask = () => {
+    setHealth((health) => Math.max(0, health - 10));
+    setMoney((money) => money - 5);
+  };
+
   return (
     <Router>
       <div
@@ -44,7 +57,15 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/settings" element={<SettingsMenu />} />
           <Route path="/timer" element={<Timer />} />
-          <Route path="/todo" element={<ToDoList />} />
+          <Route
+            path="/todo"
+            element={
+              <ToDoList
+                onComplete={completeTask}
+                onUncomplete={uncompleteTask}
+              />
+            }
+          />
           <Route path="*" element={<Home />} />
         </Routes>
       </div>

@@ -1,7 +1,13 @@
 import { useState } from "react";
 import "./App.css";
 
-export default function ToDoList() {
+export default function ToDoList({
+  onComplete,
+  onUncomplete,
+}: {
+  onComplete: () => void;
+  onUncomplete: () => void;
+}) {
   const [items, setItems] = useState([
     "Lock in time",
     "Read Chapters 2-3",
@@ -26,6 +32,11 @@ export default function ToDoList() {
   };
 
   const checkItem = (item: string) => {
+    if (checkedItems[item]) {
+      onUncomplete();
+    } else {
+      onComplete();
+    }
     setCheckedItems((prev) => ({ ...prev, [item]: !prev[item] }));
   };
 
